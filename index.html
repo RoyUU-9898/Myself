@@ -1,0 +1,650 @@
+<!doctype html>
+<html lang="zh-Hant">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>把喜歡自己，練成日常</title>
+        <style>
+            :root {
+                color-scheme: light dark;
+            }
+
+            * {
+                box-sizing: border-box;
+            }
+
+            body {
+                margin: 0;
+                font-family: -apple-system, BlinkMacSystemFont, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+                background: light-dark(#f8f5ef, #171916);
+                color: light-dark(#29332b, #eef0e9);
+            }
+
+            .app {
+                min-height: 100vh;
+                background: light-dark(#f8f5ef, #171916);
+                padding: 28px 16px 42px;
+            }
+
+            .wrap {
+                width: min(760px, 100%);
+                margin: 0 auto;
+            }
+
+            .eyebrow {
+                font-size: 12px;
+                letter-spacing: .16em;
+                text-transform: uppercase;
+                color: light-dark(#7e8b70, #b1c39e);
+                font-weight: 700;
+            }
+
+            h1 {
+                font-size: clamp(28px, 6vw, 42px);
+                line-height: 1.2;
+                margin: 10px 0 12px;
+                letter-spacing: -.04em;
+            }
+
+            .intro {
+                color: light-dark(#667064, #b6bdb2);
+                line-height: 1.75;
+                margin: 0;
+                max-width: 580px;
+            }
+
+            .hero {
+                padding: 24px 0 26px;
+            }
+
+            .pill {
+                display: inline-flex;
+                align-items: center;
+                gap: 7px;
+                border: 1px solid light-dark(#d9dfd1, #3b4539);
+                border-radius: 999px;
+                padding: 7px 11px;
+                font-size: 12px;
+                color: light-dark(#53634b, #c4d5b7);
+                margin-top: 18px;
+            }
+
+            .layout {
+                display: grid;
+                grid-template-columns: 1.25fr .75fr;
+                gap: 14px;
+                align-items: stretch;
+            }
+
+            .card {
+                background: light-dark(#fffdf9, #222620);
+                border: 1px solid light-dark(#e8e3d9, #353b32);
+                border-radius: 22px;
+                padding: 22px;
+                box-shadow: 0 8px 28px rgba(42, 49, 35, .04);
+            }
+
+            .card-label {
+                font-size: 12px;
+                letter-spacing: .08em;
+                color: light-dark(#7d8777, #aeb8a5);
+                font-weight: 700;
+            }
+
+            .date {
+                margin-top: 7px;
+                font-size: 14px;
+                color: light-dark(#6b7467, #b4bcb0);
+            }
+
+            .quote {
+                font-size: clamp(23px, 4vw, 31px);
+                line-height: 1.55;
+                letter-spacing: -.025em;
+                font-weight: 750;
+                margin: 18px 0 14px;
+            }
+
+            .gentle {
+                color: light-dark(#777f72, #b5bbae);
+                font-size: 14px;
+                line-height: 1.7;
+            }
+
+            button {
+                border: 0;
+                cursor: pointer;
+                font: inherit;
+                transition: transform .15s ease, opacity .15s ease, background .15s ease;
+            }
+
+            button:active {
+                transform: scale(.985);
+            }
+
+            .done-button {
+                width: 100%;
+                padding: 15px 18px;
+                margin-top: 20px;
+                border-radius: 14px;
+                background: light-dark(#526a48, #819b73);
+                color: #fff;
+                font-weight: 750;
+            }
+
+            .done-button.completed {
+                background: light-dark(#e8efe2, #33432f);
+                color: light-dark(#405c37, #d8e8cd);
+                border: 1px solid light-dark(#cfddc5, #4a6043);
+            }
+
+            .tiny-note {
+                margin-top: 11px;
+                font-size: 12px;
+                color: light-dark(#858c80, #9ca597);
+                line-height: 1.6;
+            }
+
+            .stats {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+                margin-top: 14px;
+            }
+
+            .stat {
+                background: light-dark(#f1f3eb, #2b3128);
+                border-radius: 15px;
+                padding: 16px 14px;
+            }
+
+            .stat strong {
+                display: block;
+                font-size: 29px;
+                letter-spacing: -.04em;
+            }
+
+            .stat span {
+                display: block;
+                margin-top: 5px;
+                color: light-dark(#6f7968, #b0b9a9);
+                font-size: 12px;
+            }
+
+            .section-title {
+                font-size: 18px;
+                margin: 28px 0 12px;
+                letter-spacing: -.02em;
+            }
+
+            .week {
+                display: grid;
+                grid-template-columns: repeat(7, 1fr);
+                gap: 8px;
+            }
+
+            .day {
+                border: 1px solid light-dark(#e7e2d8, #353b32);
+                border-radius: 13px;
+                background: light-dark(#fffdf9, #222620);
+                padding: 11px 4px;
+                text-align: center;
+                min-width: 0;
+            }
+
+            .day .dow {
+                font-size: 11px;
+                color: light-dark(#81897a, #aeb7a5);
+            }
+
+            .day .num {
+                font-size: 16px;
+                font-weight: 750;
+                margin: 6px 0;
+            }
+
+            .day .mark {
+                font-size: 14px;
+                color: light-dark(#a7afa0, #687260);
+            }
+
+            .day.done {
+                background: light-dark(#eaf0e4, #2e3b2a);
+                border-color: light-dark(#cedcc4, #475a3f);
+            }
+
+            .day.done .mark {
+                color: light-dark(#4d7042, #c8e2b7);
+            }
+
+            .day.today {
+                outline: 2px solid light-dark(#81976f, #91aa7e);
+                outline-offset: 1px;
+            }
+
+            .reminder {
+                margin-top: 18px;
+                padding: 18px 20px;
+                border-radius: 18px;
+                background: light-dark(#ede9df, #272b24);
+                line-height: 1.75;
+                color: light-dark(#596152, #c3c9bb);
+                font-size: 14px;
+            }
+
+            .reminder strong {
+                color: light-dark(#34402f, #e6ebdf);
+            }
+
+            .practice-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+            }
+
+            .practice-card {
+                background: light-dark(#fffdf9, #222620);
+                border: 1px solid light-dark(#e8e3d9, #353b32);
+                border-radius: 18px;
+                padding: 18px;
+            }
+
+            .practice-card h3 {
+                font-size: 16px;
+                margin: 0 0 10px;
+            }
+
+            .practice-card p, .practice-card li {
+                color: light-dark(#667064, #b6bdb2);
+                font-size: 13px;
+                line-height: 1.75;
+            }
+
+            .practice-card ul {
+                padding-left: 18px;
+                margin: 8px 0 0;
+            }
+
+            .art-card {
+                overflow: hidden;
+                border-radius: 22px;
+                margin-top: 18px;
+                border: 1px solid light-dark(#e8e3d9, #353b32);
+                background: light-dark(#f3e8dc, #292b27);
+            }
+
+            .art-scene {
+                min-height: 190px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+                background: var(--scene-bg, linear-gradient(145deg,#f8e4d4,#dce8d8));
+            }
+
+            .art-scene svg {
+                width: 100%;
+                max-width: 500px;
+                height: 190px;
+                display: block;
+            }
+
+            .art-caption {
+                padding: 15px 18px 17px;
+            }
+
+            .art-caption strong {
+                display: block;
+                font-size: 15px;
+                margin-bottom: 5px;
+            }
+
+            .art-caption span {
+                color: light-dark(#667064, #b6bdb2);
+                font-size: 13px;
+                line-height: 1.7;
+            }
+
+            .footer {
+                text-align: center;
+                color: light-dark(#92998b, #8f9888);
+                font-size: 12px;
+                margin-top: 24px;
+                line-height: 1.7;
+            }
+
+            @media (max-width: 600px) {
+                .app {
+                    padding: 22px 13px 32px;
+                }
+
+                .layout {
+                    grid-template-columns: 1fr;
+                }
+
+                .practice-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .card {
+                    padding: 19px;
+                }
+
+                .week {
+                    gap: 5px;
+                }
+
+                .day {
+                    padding: 9px 2px;
+                }
+
+                .day .num {
+                    font-size: 14px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <main class="app">
+            <div class="wrap">
+                <header class="hero">
+                    <div class="eyebrow">A little practice, every day</div>
+                    <h1>把喜歡自己，練成日常。</h1>
+                    <p class="intro">每天花一分鐘，練習把注意力放回自己身上。你可以期待愛情，也可以在還沒有答案的日子裡，好好照顧自己。</p>
+                    <div class="pill">✦ 7 天自我肯定練習 · 循環進行</div>
+                </header>
+                <section class="layout" aria-label="今日練習與統計">
+                    <article class="card">
+                        <div class="card-label" id="dayLabel">今日練習</div>
+                        <div class="date" id="todayDate"></div>
+                        <div class="quote" id="affirmation"></div>
+                        <p class="gentle">不用強迫自己立刻完全相信。今天只要願意對自己好一點，就已經很好了。</p>
+                        <button class="done-button" id="doneButton" type="button">✓　今天已完成</button>
+                        <div class="tiny-note" id="buttonNote">讀一遍、深呼吸一下，再把今天還給自己。</div>
+                    </article>
+                    <aside class="card">
+                        <div class="card-label">我的小小累積</div>
+                        <div class="stats">
+                            <div class="stat">
+                                <strong id="totalCount">0</strong>
+                                <span>完成天數</span>
+                            </div>
+                            <div class="stat">
+                                <strong id="streakCount">0</strong>
+                                <span>目前連續天數</span>
+                            </div>
+                        </div>
+                        <div class="reminder">
+                            <strong>記得：</strong>
+                            <br>她今天有沒有主動找你，不決定你的價值。你可以喜歡她，也可以同時好好照顧自己。
+                        </div>
+                    </aside>
+                </section>
+                <h2 class="section-title">我的三個日常練習</h2>
+                <section class="practice-grid" aria-label="三個自我照顧練習">
+                    <article class="practice-card">
+                        <h3>① 每天稱讚自己 🌱</h3>
+                        <p>起床時或睡前，挑一句話溫柔地對自己說：</p>
+                        <ul>
+                            <li>我是一個值得被喜歡的人。</li>
+                            <li>我有真心對待別人的能力，這是我的優點。</li>
+                            <li>我不需要一直主動，才能證明自己的價值。</li>
+                            <li>即使今天沒有人主動找我，我依然值得被珍惜。</li>
+                        </ul>
+                    </article>
+                    <article class="practice-card">
+                        <h3>② 留下浪漫，也放下強求 💛</h3>
+                        <p>可以期待她喜歡你，但不必逼自己猜出答案：</p>
+                        <ul>
+                            <li>我可以期待她喜歡我，但不必強迫結果發生。</li>
+                            <li>我有勇氣讓她認識真正的我。</li>
+                            <li>如果我們適合，我希望感情慢慢變成雙向。</li>
+                            <li>我不必靠猜測她的心意，才能安心過好今天。</li>
+                        </ul>
+                    </article>
+                    <article class="practice-card">
+                        <h3>③ 把注意力放回生活 ☀️</h3>
+                        <p>每天做一件讓自己開心的事，不是為了讓她注意你，而是因為你也很重要。</p>
+                        <ul>
+                            <li>享受和同事聊天的時光。</li>
+                            <li>好好休息，讓自己喘口氣。</li>
+                            <li>做一件自己喜歡的小事。</li>
+                            <li>可以喜歡她，也別忘了照顧自己。</li>
+                        </ul>
+                    </article>
+                </section>
+                <h2 class="section-title">今日療癒小風景</h2>
+                <section class="art-card" aria-label="每日療癒插畫">
+                    <div class="art-scene" id="artScene" aria-label="每天變換的柔和風景插畫"></div>
+                    <div class="art-caption">
+                        <strong id="artTitle">給今天的自己一點溫柔</strong>
+                        <span id="artText">慢慢來也沒關係，你不需要在今天解決所有心事。</span>
+                    </div>
+                </section>
+                <h2 class="section-title">最近 7 天</h2>
+                <section class="week" id="weekGrid" aria-label="最近七天完成紀錄"></section>
+                <div class="reminder">
+                    <strong>給自己的小提醒</strong>
+                    <br>吸引力法則不能保證某個人會愛上你，但自我肯定可以幫助你練習更溫柔地看待自己。把「她一定會愛上我」換成「我值得被喜歡，也願意讓感情自然發生」。
+                </div>
+                <footer class="footer">
+                    紀錄會保存在這個瀏覽器的本機資料中。若更換裝置或清除瀏覽器資料，紀錄可能不會跟著移轉。<br>不用追求完美；漏掉一天，也可以溫柔地重新開始。
+                </footer>
+            </div>
+        </main>
+        <script>
+            const affirmations = ["我值得被喜歡，不需要靠追逐別人來證明。", "我真心對待別人的能力，是一份珍貴的特質。", "我可以喜歡她，也可以好好照顧自己。", "她今天有沒有主動找我，不決定我的價值。", "我不需要假裝成別人，才能讓人認識真正的我。", "我值得一段彼此願意靠近、互相珍惜的關係。", "我可以期待愛情，也允許感情慢慢發生。"];
+            const dailyScenes = [{
+                title: "慢慢來也沒關係",
+                text: "你不需要在今天解決所有心事。",
+                bg: "linear-gradient(145deg,#f7dfd2,#dce8d7)",
+                art: `<svg viewBox="0 0 500 190" role="img" aria-label="暖陽與小山的療癒風景"><circle cx="365" cy="55" r="27" fill="#f5bd78"/><path d="M0 145 Q90 65 180 140 T360 125 T500 130 V190 H0Z" fill="#a9c5a0"/><path d="M0 165 Q120 110 245 160 T500 150 V190 H0Z" fill="#7fa68b"/><path d="M70 190 Q105 145 140 190" fill="#e9d1b5"/><circle cx="90" cy="72" r="3" fill="#fff8e9"/><circle cx="115" cy="54" r="2" fill="#fff8e9"/></svg>`
+            }, {
+                title: "你值得被好好對待",
+                text: "包括被你自己溫柔地對待。",
+                bg: "linear-gradient(145deg,#f5dce5,#e8e1f4)",
+                art: `<svg viewBox="0 0 500 190" role="img" aria-label="柔和花朵插畫"><circle cx="250" cy="85" r="25" fill="#e6a85f"/><g fill="#e9a8bd"><ellipse cx="250" cy="52" rx="17" ry="28"/><ellipse cx="250" cy="118" rx="17" ry="28"/><ellipse cx="217" cy="85" rx="28" ry="17"/><ellipse cx="283" cy="85" rx="28" ry="17"/></g><path d="M250 110 Q245 145 260 190" fill="none" stroke="#719578" stroke-width="7" stroke-linecap="round"/><path d="M255 150 Q210 120 205 158 Q228 177 255 150" fill="#91b69a"/><path d="M255 169 Q290 132 309 162 Q292 185 255 169" fill="#7ca789"/><circle cx="100" cy="40" r="3" fill="#fff"/><circle cx="390" cy="55" r="4" fill="#fff"/></svg>`
+            }, {
+                title: "把心放回自己身上",
+                text: "去喝杯喜歡的飲料，或讓自己好好休息一下。",
+                bg: "linear-gradient(145deg,#dcecf0,#f6e8d3)",
+                art: `<svg viewBox="0 0 500 190" role="img" aria-label="窗邊一杯熱飲與小植物"><rect x="105" y="18" width="290" height="130" rx="8" fill="#f8f4e8"/><rect x="120" y="30" width="122" height="105" rx="3" fill="#b9d8d8"/><rect x="255" y="30" width="125" height="105" rx="3" fill="#c9dfd3"/><path d="M180 135 V30 M120 83 H242 M318 135 V30 M255 83 H380" stroke="#f8f4e8" stroke-width="7"/><path d="M205 140 H285 L275 170 H215Z" fill="#d89d7c"/><ellipse cx="245" cy="140" rx="40" ry="8" fill="#edc3a3"/><path d="M245 132 Q230 115 242 103 Q257 119 245 132" fill="none" stroke="#fff" stroke-width="3"/><path d="M330 148 V111 M330 128 Q305 105 300 126 Q312 142 330 128 M330 119 Q349 96 359 117 Q351 132 330 119" fill="#76a47d"/><path d="M305 150 H355 L349 174 H311Z" fill="#e7b4a4"/></svg>`
+            }, {
+                title: "感情可以慢慢發生",
+                text: "你可以期待，也可以不急著得到答案。",
+                bg: "linear-gradient(145deg,#dcdff5,#f4e2d9)",
+                art: `<svg viewBox="0 0 500 190" role="img" aria-label="夜空、月亮與星星"><circle cx="250" cy="78" r="37" fill="#f5d99a"/><circle cx="265" cy="64" r="34" fill="#dcdff5"/><g fill="#fff9e7"><path d="M120 38 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4Z"/><path d="M350 55 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3Z"/><circle cx="175" cy="80" r="3"/><circle cx="330" cy="100" r="3"/></g><path d="M0 160 Q100 125 200 160 T500 150 V190 H0Z" fill="#9eacc8"/><path d="M0 174 Q120 145 250 175 T500 170 V190 H0Z" fill="#778ba9"/></svg>`
+            }, {
+                title: "今天也值得被肯定",
+                text: "就算只前進一小步，也算是好好照顧自己。",
+                bg: "linear-gradient(145deg,#f5e4bf,#e1ead4)",
+                art: `<svg viewBox="0 0 500 190" role="img" aria-label="小雛菊和草地"><path d="M0 155 Q130 125 250 155 T500 145 V190 H0Z" fill="#a6c49b"/><g transform="translate(180 95)"><circle r="13" fill="#edc16c"/><g fill="#fffdf3"><ellipse cy="-22" rx="10" ry="17"/><ellipse cy="22" rx="10" ry="17"/><ellipse cx="-22" rx="17" ry="10"/><ellipse cx="22" rx="17" ry="10"/><ellipse cx="-16" cy="-16" rx="10" ry="15" transform="rotate(-45 -16 -16)"/><ellipse cx="16" cy="16" rx="10" ry="15" transform="rotate(-45 16 16)"/><ellipse cx="16" cy="-16" rx="10" ry="15" transform="rotate(45 16 -16)"/><ellipse cx="-16" cy="16" rx="10" ry="15" transform="rotate(45 -16 16)"/></g><path d="M0 15 V75 M0 50 Q-25 25 -38 48 Q-25 66 0 50" fill="none" stroke="#6d9a75" stroke-width="5"/></g><g fill="#fff8e6"><circle cx="320" cy="48" r="4"/><circle cx="345" cy="65" r="3"/><circle cx="110" cy="50" r="3"/></g></svg>`
+            }, {
+                title: "不必靠追逐證明自己",
+                text: "真心是你的優點，而你的價值一直都在。",
+                bg: "linear-gradient(145deg,#f1d9cb,#e3dff0)",
+                art: `<svg viewBox="0 0 500 190" role="img" aria-label="漂浮的愛心與柔和雲朵"><path d="M0 130 Q55 105 110 130 T220 130 T330 125 T500 130 V190 H0Z" fill="#d6c9df"/><g fill="#fff8f1"><ellipse cx="140" cy="95" rx="37" ry="18"/><ellipse cx="120" cy="88" rx="22" ry="22"/><ellipse cx="155" cy="82" rx="25" ry="24"/><ellipse cx="350" cy="115" rx="35" ry="17"/><ellipse cx="330" cy="108" rx="20" ry="20"/><ellipse cx="365" cy="103" rx="24" ry="22"/></g><path d="M250 62 C228 35 195 55 207 80 L250 120 L293 80 C305 55 272 35 250 62Z" fill="#d98fa4"/><circle cx="95" cy="42" r="3" fill="#fff"/><circle cx="405" cy="55" r="4" fill="#fff"/></svg>`
+            }, {
+                title: "給自己一個小小擁抱",
+                text: "你可以喜歡一個人，也可以把自己放在心上。",
+                bg: "linear-gradient(145deg,#e2eadb,#f4dfe0)",
+                art: `<svg viewBox="0 0 500 190" role="img" aria-label="抱著愛心的可愛小雲朵"><path d="M0 155 Q125 130 250 158 T500 150 V190 H0Z" fill="#c0d4b6"/><g fill="#fffaf1"><ellipse cx="250" cy="94" rx="68" ry="48"/><circle cx="208" cy="82" r="34"/><circle cx="252" cy="62" r="38"/><circle cx="292" cy="83" r="32"/></g><circle cx="230" cy="94" r="4" fill="#8a817c"/><circle cx="270" cy="94" r="4" fill="#8a817c"/><path d="M240 105 Q250 115 260 105" fill="none" stroke="#c9878c" stroke-width="3" stroke-linecap="round"/><path d="M250 121 C238 106 220 119 230 133 L250 151 L270 133 C280 119 262 106 250 121Z" fill="#e5a0aa"/><path d="M190 112 Q207 129 225 122 M310 112 Q293 129 275 122" fill="none" stroke="#fffaf1" stroke-width="12" stroke-linecap="round"/></svg>`
+            }];
+            function generateRandomScene() {
+                const palettes = [{
+                    bg: "linear-gradient(145deg,#f7dfd2,#dce8d7)",
+                    sky: "#f6bd78",
+                    hill1: "#a9c5a0",
+                    hill2: "#7fa68b",
+                    accent: "#e9d1b5",
+                    flower: "#e9a8bd"
+                }, {
+                    bg: "linear-gradient(145deg,#f5dce5,#e8e1f4)",
+                    sky: "#f2c9a5",
+                    hill1: "#c5b5d8",
+                    hill2: "#9eacc8",
+                    accent: "#fff8f1",
+                    flower: "#d98fa4"
+                }, {
+                    bg: "linear-gradient(145deg,#dcecf0,#f6e8d3)",
+                    sky: "#f5d99a",
+                    hill1: "#b9d8d8",
+                    hill2: "#7fae9c",
+                    accent: "#f8f4e8",
+                    flower: "#d89d7c"
+                }, {
+                    bg: "linear-gradient(145deg,#dcdff5,#f4e2d9)",
+                    sky: "#f5d99a",
+                    hill1: "#9eacc8",
+                    hill2: "#778ba9",
+                    accent: "#fff9e7",
+                    flower: "#d98fa4"
+                }, {
+                    bg: "linear-gradient(145deg,#f5e4bf,#e1ead4)",
+                    sky: "#f2c875",
+                    hill1: "#a6c49b",
+                    hill2: "#7ca789",
+                    accent: "#fffdf3",
+                    flower: "#edb6c7"
+                }, {
+                    bg: "linear-gradient(145deg,#e2eadb,#f4dfe0)",
+                    sky: "#f3c6a6",
+                    hill1: "#c0d4b6",
+                    hill2: "#8eaf91",
+                    accent: "#fffaf1",
+                    flower: "#e5a0aa"
+                }];
+                const pick = (items) => items[Math.floor(Math.random() * items.length)];
+                const palette = pick(palettes);
+                const sunX = 75 + Math.random() * 350;
+                const sunY = 25 + Math.random() * 48;
+                const sunR = 17 + Math.random() * 16;
+                let stars = "";
+                for (let i = 0; i < 15; i++) {
+                    const x = Math.random() * 490 + 5;
+                    const y = Math.random() * 115 + 8;
+                    const r = 1.5 + Math.random() * 3;
+                    stars += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${palette.accent}" opacity="${(0.45 + Math.random() * 0.5).toFixed(2)}"/>`;
+                }
+                let flowers = "";
+                for (let i = 0; i < 4; i++) {
+                    const x = 45 + Math.random() * 410;
+                    const y = 143 + Math.random() * 20;
+                    const size = 5 + Math.random() * 5;
+                    const petal = pick([palette.flower, palette.accent, "#f4c96b", "#f1b7a8"]);
+                    flowers += `<path d="M${x.toFixed(1)} ${y.toFixed(1)} q-2 -${(size * 2).toFixed(1)} 0 -${(size * 4).toFixed(1)}" fill="none" stroke="${palette.hill2}" stroke-width="2.5" stroke-linecap="round"/><g fill="${petal}"><circle cx="${x.toFixed(1)}" cy="${(y - size * 4).toFixed(1)}" r="${size.toFixed(1)}"/><circle cx="${(x - size * 1.5).toFixed(1)}" cy="${(y - size * 2.5).toFixed(1)}" r="${(size * 0.8).toFixed(1)}"/><circle cx="${(x + size * 1.5).toFixed(1)}" cy="${(y - size * 2.5).toFixed(1)}" r="${(size * 0.8).toFixed(1)}"/></g><circle cx="${x.toFixed(1)}" cy="${(y - size * 3).toFixed(1)}" r="${(size * 0.55).toFixed(1)}" fill="#e9b75e"/>`;
+                }
+                const heartX = 110 + Math.random() * 280;
+                const heartY = 48 + Math.random() * 45;
+                const heart = `<path d="M${heartX.toFixed(1)} ${heartY.toFixed(1)} C${(heartX - 12).toFixed(1)} ${(heartY - 16).toFixed(1)} ${(heartX - 29).toFixed(1)} ${(heartY - 3).toFixed(1)} ${(heartX - 19).toFixed(1)} ${(heartY + 10).toFixed(1)} L${heartX.toFixed(1)} ${(heartY + 27).toFixed(1)} L${(heartX + 19).toFixed(1)} ${(heartY + 10).toFixed(1)} C${(heartX + 29).toFixed(1)} ${(heartY - 3).toFixed(1)} ${(heartX + 12).toFixed(1)} ${(heartY - 16).toFixed(1)} ${heartX.toFixed(1)} ${heartY.toFixed(1)}Z" fill="${palette.flower}" opacity=".85"/>`;
+                const art = `<svg viewBox="0 0 500 190" role="img" aria-label="隨機生成的柔和療癒風景"><circle cx="${sunX.toFixed(1)}" cy="${sunY.toFixed(1)}" r="${sunR.toFixed(1)}" fill="${palette.sky}"/>${stars}${heart}<path d="M0 145 Q${80 + Math.random() * 50} ${65 + Math.random() * 25} 180 140 T360 125 T500 130 V190 H0Z" fill="${palette.hill1}"/><path d="M0 165 Q120 110 245 160 T500 150 V190 H0Z" fill="${palette.hill2}"/>${flowers}</svg>`;
+                const caption = pick(dailyScenes);
+                return {
+                    ...caption,
+                    bg: palette.bg,
+                    art
+                };
+            }
+            const STORAGE_KEY = "selfLovePractice_v1";
+            const dateKey = (date) => {
+                const y = date.getFullYear();
+                const m = String(date.getMonth() + 1).padStart(2, "0");
+                const d = String(date.getDate()).padStart(2, "0");
+                return `${y}-${m}-${d}`;
+            }
+            ;
+            const parseDate = (key) => {
+                const [y,m,d] = key.split("-").map(Number);
+                return new Date(y,m - 1,d,12,0,0);
+            }
+            ;
+            const dayDiff = (a, b) => Math.round((parseDate(b) - parseDate(a)) / 86400000);
+            const today = new Date();
+            const todayKey = dateKey(today);
+            let state;
+            try {
+                state = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+            } catch (error) {
+                state = null;
+            }
+            if (!state || !Array.isArray(state.completed)) {
+                state = {
+                    startDate: todayKey,
+                    completed: []
+                };
+            }
+            if (!state.startDate)
+                state.startDate = todayKey;
+            const currentIndex = ((dayDiff(state.startDate, todayKey) % 7) + 7) % 7;
+            const completed = new Set(state.completed);
+            const weekdayNames = ["日", "一", "二", "三", "四", "五", "六"];
+            const monthDate = new Intl.DateTimeFormat("zh-TW",{
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+                weekday: "long"
+            }).format(today);
+            document.getElementById("todayDate").textContent = monthDate;
+            document.getElementById("dayLabel").textContent = `第 ${currentIndex + 1} 天 · 今日練習`;
+            document.getElementById("affirmation").textContent = affirmations[currentIndex];
+            const scene = generateRandomScene();
+            document.getElementById("artScene").style.setProperty("--scene-bg", scene.bg);
+            document.getElementById("artScene").innerHTML = scene.art;
+            document.getElementById("artTitle").textContent = scene.title;
+            document.getElementById("artText").textContent = scene.text;
+
+            const save = () => {
+                state.completed = [...completed].sort();
+                try {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+                } catch (error) {}
+            }
+            ;
+            const getStreak = () => {
+                let count = 0;
+                const cursor = new Date(today.getFullYear(),today.getMonth(),today.getDate(),12,0,0);
+                while (completed.has(dateKey(cursor))) {
+                    count++;
+                    cursor.setDate(cursor.getDate() - 1);
+                }
+                return count;
+            }
+            ;
+            const render = () => {
+                const button = document.getElementById("doneButton");
+                const isDone = completed.has(todayKey);
+                button.classList.toggle("completed", isDone);
+                button.textContent = isDone ? "✓　今天已完成！" : "✓　今天已完成";
+                document.getElementById("buttonNote").textContent = isDone ? "今天的你已經有好好照顧自己了。明天再繼續就好。" : "讀一遍、深呼吸一下，再把今天還給自己。";
+                document.getElementById("totalCount").textContent = completed.size;
+                document.getElementById("streakCount").textContent = getStreak();
+                const grid = document.getElementById("weekGrid");
+                grid.innerHTML = "";
+                for (let offset = -6; offset <= 0; offset++) {
+                    const date = new Date(today.getFullYear(),today.getMonth(),today.getDate() + offset,12,0,0);
+                    const key = dateKey(date);
+                    const isToday = key === todayKey;
+                    const isCompleted = completed.has(key);
+                    const item = document.createElement("div");
+                    item.className = `day${isCompleted ? " done" : ""}${isToday ? " today" : ""}`;
+                    item.innerHTML = `<div class="dow">${weekdayNames[date.getDay()]}</div><div class="num">${date.getDate()}</div><div class="mark">${isCompleted ? "✓" : "·"}</div>`;
+                    item.setAttribute("aria-label", `${key}${isCompleted ? "已完成" : "未完成"}${isToday ? "，今天" : ""}`);
+                    grid.appendChild(item);
+                }
+            }
+            ;
+            document.getElementById("doneButton").addEventListener("click", () => {
+                if (completed.has(todayKey))
+                    completed.delete(todayKey);
+                else
+                    completed.add(todayKey);
+                save();
+                render();
+            }
+            );
+            save();
+            render();
+        </script>
+    </body>
+</html>
